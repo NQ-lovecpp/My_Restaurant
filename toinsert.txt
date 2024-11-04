@@ -1,0 +1,15 @@
+{
+  "_id": "menu1",
+  "name": "招牌牛排",
+  "price": 88.00,
+  "image_url": "cloud://your-cloud-path/steak.jpg",
+  "description": "经典招牌牛排，鲜嫩多汁"
+}
+
+{
+  "_id": "menu2",
+  "name": "香辣鸡翅",
+  "price": 28.00,
+  "image_url": "cloud://your-cloud-path/chicken_wings.jpg",
+  "description": "辣味浓郁，香气扑鼻"
+}

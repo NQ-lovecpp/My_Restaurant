@@ -1,0 +1,212 @@
+/* 菜单页面整体样式 */
+.menu-page {
+  padding: 20rpx;
+  background-color: #f5f5f5;
+}
+
+/* 菜单列表样式 */
+.menu-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+
+.menu-item {
+  width: 46%; /* 保持每行显示两个 */
+  background-color: #fff;
+  border-radius: 10rpx;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20rpx;
+  padding: 10rpx;
+}
+
+/* 图片样式 */
+.item-image {
+  width: 100%;
+  height: 150rpx;
+  border-radius: 10rpx;
+}
+
+/* 菜品信息容器 */
+.item-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10rpx;
+}
+
+/* 菜品名称和价格容器 */
+.item-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* 占据剩余空间 */
+}
+
+/* 菜品名称和价格样式 */
+.item-name {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.item-price {
+  font-size: 24rpx;
+  color: #e64340;
+  margin-top: 5rpx; /* 增加名称与价格之间的间距 */
+}
+
+/* 加入购物车按钮样式 */
+.add-to-cart-button {
+  padding: 10rpx;
+  background-color: #1AAD19;
+  color: #fff;
+  font-size: 24rpx;
+  border-radius: 5rpx;
+  margin-left: 10rpx; /* 与左侧内容保持一定间距 */
+}
+
+
+
+/* 查看购物车按钮 */
+.cart-button {
+  position: fixed;
+  bottom: 100rpx;
+  right: 30rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background-color: #FFB300;
+  color: #fff;
+  font-size: 32rpx;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 购物车窗口样式 */
+.cart {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background-color: #fff;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-title {
+  font-size: 36rpx;
+  color: #333;
+}
+
+.close-button {
+  font-size: 28rpx;
+  color: #888;
+  background: none;
+}
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 10rpx;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10rpx 0;
+  border-bottom: 1px solid #eee;
+}
+
+.item-subtotal {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-button {
+  width: 40rpx;
+  height: 40rpx;
+  background-color: #eee;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: #333;
+  margin: 0 10rpx;
+}
+
+.cart-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10rpx;
+}
+
+.total-label,
+.total-amount {
+  font-size: 32rpx;
+  color: #333;
+}
+
+.submit-button {
+  width: 45%;
+  padding: 15rpx;
+  background-color: #FFB300;
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 10rpx;
+}
+
+/* 菜品详情浮动窗口 */
+.item-detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-detail-content {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  text-align: center;
+}
+
+.item-detail-image {
+  width: 100%;
+  height: 200rpx;
+  border-radius: 10rpx;
+  margin-bottom: 10rpx;
+}
+
+.item-detail-name {
+  font-size: 36rpx;
+  color: #333;
+}
+
+.item-detail-price,
+.item-detail-description {
+  font-size: 28rpx;
+  color: #555;
+  margin: 5rpx 0;
+}

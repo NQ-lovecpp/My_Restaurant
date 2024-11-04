@@ -1,0 +1,36 @@
+<view class="header">
+  <button class="login_btn" wx:if="{{!hasUserInfo}}" bindtap="login" type="primary">授权登录</button>
+  <view wx:else class="root">
+    <image class="touxiang" src="{{userInfo.avatarUrl}}"></image>
+    <text class="nicheng">{{userInfo.nickName}}</text>
+    <text class="login_out" bindtap="loginOut">退出登录</text>
+  </view>
+</view>
+
+<view wx:if="{{hasUserInfo}}">
+  <view class="item" bindtap="goMyorder">
+    <text>我的订单</text>
+    <view class="right_arrow"></view>
+  </view>
+  <view class="item" bindtap="gopaihao">
+    <text>我的排号</text>
+    <view class="right_arrow"></view>
+  </view>
+  <view class="item" bindtap="goMycomment">
+    <text>我的评价</text>
+    <view class="right_arrow"></view>
+  </view>
+</view>
+
+<view class="item">
+  <button class="button" open-type="feedback">反馈建议</button>
+  <view class="right_arrow"></view>
+</view>
+<view class="item">
+  <button class="button" open-type="contact">在线客服</button>
+  <view class="right_arrow"></view>
+</view>
+<view class="item" bindtap="goAdmin">
+  <text>管理员登录</text>
+  <view class="right_arrow"></view>
+</view>

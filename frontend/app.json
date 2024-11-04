@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/menu/menu",
+    "pages/account/account",
+    "pages/myOrder/myOrder"
+  ],
+  "window": {
+    "navigationBarTitleText": "餐厅点餐系统",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f5f5f5",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#8a8a8a",
+    "selectedColor": "#2d8cf0",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/menu/menu",
+        "text": "菜单",
+        "iconPath": "images/menu.png",
+        "selectedIconPath": "images/menu.png"
+      },
+      {
+        "pagePath": "pages/account/account",
+        "text": "我的账户",
+        "iconPath": "images/account.png",
+        "selectedIconPath": "images/account.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userInfo": {
+      "desc": "获取您的用户信息用于展示账户信息"
+    }
+  },
+  "sitemapLocation": "sitemap.json"
+}

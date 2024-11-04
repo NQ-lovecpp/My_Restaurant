@@ -1,0 +1,119 @@
+/* pages/myOrder/myOrder.wxss */
+page {
+    background: #f2f2f2;
+}
+
+/* 顶部导航栏 */
+.tabs_root {
+    position: fixed;
+    background: white;
+    color: #353535;
+    top: 0;
+    bottom: 0;
+    text-align: center;
+    right: 0;
+    z-index: 300;
+    max-height: 94rpx;
+    width: 100%;
+}
+
+.flex {
+    display: flex;
+    text-align: center;
+}
+
+.select_tab {
+    border-bottom: 5rpx solid #224b8f;
+}
+
+.select_tab {
+    color: #224b8f;
+    font-size: 40rpx;
+}
+
+.tabs_item {
+    height: 90rpx;
+    display: inline-block;
+    line-height: 90rpx;
+    margin: 0 10rpx;
+    padding: 0 20rpx;
+    flex: 1;
+}
+
+/* 一层列表 */
+.order_item_hed {
+    margin-top: 90rpx;
+}
+
+.order_item {
+    background: white;
+    margin-top: 15rpx;
+}
+
+.order_item_id {
+    font-size: 34rpx;
+    padding: 15rpx;
+    border-bottom: 3rpx solid gainsboro;
+}
+
+.order_item_price {
+    margin-left: 45rpx;
+    margin-top: 15rpx;
+    margin-bottom: 10rpx;
+    border-bottom: 3rpx solid gainsboro;
+}
+
+/* 二层列表 */
+.order_item2 {
+    border-bottom: 3rpx solid gainsboro;
+    margin-left: 45rpx;
+    margin-top: 15rpx;
+    margin-bottom: 10rpx;
+}
+
+.order_item2_price {
+    color: #122bb9;
+}
+
+.order_item_time {
+    color: red;
+    font-size: 35rpx;
+}
+
+/* 列表为空 */
+.nothing {
+    text-align: center;
+    margin-top: 350rpx;
+}
+
+.nothing_txt {
+    background: gray;
+    padding: 30rpx;
+    color: white;
+    border-radius: 40rpx;
+}
+
+/* 左右布局 */
+.order_btn_root {
+    display: flex;
+    align-items: center;
+}
+
+.order_btn_root_left {
+    flex: 1;
+}
+
+.order_btn_quxiao {
+    font-size: 30rpx;
+    border: 4rpx solid gray;
+    margin: 15rpx;
+    padding: 5rpx 20rpx;
+    color: gray;
+}
+.order_btn_pingjia {
+    font-size: 39rpx;
+    border: 4rpx solid #224b8f;
+    margin: 15rpx;
+    padding: 5rpx 20rpx;
+    color: #224b8f;
+}
