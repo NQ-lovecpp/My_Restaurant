@@ -13,7 +13,7 @@ exports.main = async (event, context) => {
 
   const { cartItems, totalAmount } = event;
   const { OPENID } = cloud.getWXContext();
-  
+
   let connection;
 
   try {
@@ -30,14 +30,20 @@ exports.main = async (event, context) => {
     // 开始事务
     await connection.beginTransaction();
 
-    // 插入订单信息
+    // 插入订单信息到 orders 表
     const [orderResult] = await connection.query(
       'INSERT INTO orders (user_id, total_price, created_at, status) VALUES (?, ?, NOW(), ?)',
       [userId, totalAmount, 0] // status 初始化为 0
     );
-    const orderId = orderResult.insertId;
 
-    // 插入 order_items
+    // 检查 order_id 是否成功生成
+    const orderId = orderResult.insertId;
+    if (!orderId) {
+      throw new Error('订单 ID 生成失败');
+    }
+    console.log('订单 ID:', orderId);
+
+    // 插入每个订单项到 order_items 表
     for (const item of cartItems) {
       await connection.query(
         'INSERT INTO order_items (order_id, menu_item_id, quantity) VALUES (?, ?, ?)',

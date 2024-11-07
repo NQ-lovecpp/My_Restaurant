@@ -1,110 +1,116 @@
-let app = getApp()
-const db = wx.cloud.database()
 Page({
-    data: {
-        tabs: ['待上餐', '待评价', '已完成', '已取消'],
-        currentTab: 0
-    },
-    // 选中顶部顶部导航栏
-    selectTab(event) {
-        let index = event.currentTarget.dataset.index
-        console.log(event.currentTarget.dataset.index)
-        this.setData({
-            currentTab: index
-        })
-        if (index == 3) {
-            index = -1
-        }
-        this.getList(index)
-    },
-    onLoad() {
-        this.getList(0)
-    },
-    getList(status) {
-        db.collection('order')
-            .where({
-                status: status
-            })
-            .get()
-            .then(res => {
-                console.log('请求到的订单列表', res)
-                this.setData({
-                    list: res.data
-                })
-            })
-            .catch(res => {
-                console.log('请求到的订单列表失败', res)
-            })
-    },
-    //  取消订单
-    quxiao(e) {
-        let id = e.currentTarget.dataset.id
-        db.collection('order').doc(id)
-            .update({
-                data: {
-                    status: -1
-                }
-            }).then(res => {
-                console.log('取消订单的结果', res)
-                this.getList(0)
-            }).catch(res => {
-                console.log('取消订单失败', res)
-            })
-    },
-    pingjia(e) {
-        let id = e.currentTarget.dataset.id
-        console.log(id)
-        let user = wx.getStorageSync('user')
-        console.log('用户信息', user)
-        wx.showModal({
-            title: '请输入评价内容',
-            editable: true,
-            cancelColor: '取消',
-            success: res => {
-                if (res.confirm) {
-                    console.log('用户输入的内容', res.content)
-                    if (res.content) {
-                        db.collection('pinglun').add({
-                            data: {
-                                name: user.nickName,
-                                orderId: id,
-                                avatarUrl: user.avatarUrl,
-                                content: res.content,
-                                time: app.getCurrentTime()
-                            }
-                        }).then(res => {
-                            console.log('评价成功', res)
-                            db.collection('order').doc(id)
-                                .update({
-                                    data: {
-                                        status: 2
-                                    }
-                                }).then(res => {
-                                    console.log('评价订单的结果', res)
-                                    this.getList(0)
-                                }).catch(res => {
-                                    console.log('评价订单失败', res)
-                                })
-                            wx.showToast({
-                                title: '提交成功',
-                            })
-                        })
-                    } else {
-                        wx.showToast({
-                            icon: 'error',
-                            title: '内容为空',
-                        })
-                    }
-                } else {
-                    console.log('用户点击了取消')
-                }
-            }
-        })
-    },
-    // 跳转到评价列表页
-    chakanpingjia() {
-        wx.navigateTo({
-            url: '/pages/mycomment/mycomment',
-        })
-    }
-})
+  data: {
+      tabs: ['待上餐', '待评价', '已完成', '已取消'],
+      currentTab: 0,
+      list: [], // 订单列表
+      isLoading: false // 用于跟踪加载状态
+  },
+  
+  // 选择顶部导航栏
+  selectTab(event) {
+      if (this.data.isLoading) return; // 正在加载时禁止切换
+      let index = event.currentTarget.dataset.index;
+      this.setData({ currentTab: index });
+      if (index == 3) {
+          index = -1;
+      }
+      this.fetchOrderList(index);
+  },
+
+  onLoad() {
+      this.fetchOrderList(0); // 默认加载待上餐订单
+  },
+
+  // 获取订单列表
+  fetchOrderList(status) {
+      this.setData({ isLoading: true });
+      wx.showLoading({
+          title: '加载中...',
+          mask: true // 阻塞住当前页面，只允许返回
+      });
+
+      wx.cloud.callFunction({
+          name: 'getUserOrders',
+          data: { status },
+          success: res => {
+              if (res.result.success) {
+                  this.setData({ list: res.result.data });
+              } else {
+                  console.error('获取订单列表失败:', res.result.error);
+              }
+          },
+          fail: err => {
+              console.error('调用云函数失败:', err);
+          },
+          complete: () => {
+              this.setData({ isLoading: false });
+              wx.hideLoading();
+          }
+      });
+  },
+
+  // 取消订单
+  cancelOrder(e) {
+      if (this.data.isLoading) return; // 禁止重复操作
+      let id = e.currentTarget.dataset.id;
+      wx.showLoading({ title: '处理中...', mask: true });
+      wx.cloud.callFunction({
+          name: 'updateOrderStatus',
+          data: { orderId: id, status: -1 }, // -1 表示取消
+          success: res => {
+              console.log('取消订单成功:', res);
+              this.fetchOrderList(this.data.currentTab);
+          },
+          fail: err => {
+              console.error('取消订单失败:', err);
+          },
+          complete: () => {
+              wx.hideLoading();
+          }
+      });
+  },
+
+  // 评价订单
+  evaluateOrder(e) {
+      if (this.data.isLoading) return; // 禁止重复操作
+      let id = e.currentTarget.dataset.id;
+      let user = wx.getStorageSync('user');
+      wx.showModal({
+          title: '请输入评价内容',
+          editable: true,
+          success: res => {
+              if (res.confirm && res.content) {
+                  wx.showLoading({ title: '提交中...', mask: true });
+                  wx.cloud.callFunction({
+                      name: 'submitEvaluation',
+                      data: {
+                          userId: user.user_id,
+                          orderId: id,
+                          content: res.content,
+                          avatarUrl: user.avatarUrl
+                      },
+                      success: res => {
+                          console.log('评价提交成功:', res);
+                          wx.showToast({ title: '提交成功' });
+                          this.fetchOrderList(this.data.currentTab);
+                      },
+                      fail: err => {
+                          console.error('评价提交失败:', err);
+                          wx.showToast({ icon: 'error', title: '提交失败' });
+                      },
+                      complete: () => {
+                          wx.hideLoading();
+                      }
+                  });
+              } else {
+                  wx.showToast({ icon: 'error', title: '内容为空' });
+              }
+          }
+      });
+  },
+
+  // 查看评价
+  viewEvaluation() {
+      wx.navigateTo({ url: '/pages/mycomment/mycomment' });
+  }
+});

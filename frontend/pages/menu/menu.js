@@ -1,4 +1,3 @@
-// frontend/pages/menu/menu.js
 Page({
   data: {
     menuItems: [],
@@ -10,7 +9,6 @@ Page({
   },
 
   onLoad() {
-    // 调用云函数获取菜单数据
     wx.cloud.callFunction({
       name: 'getMenuList',
       success: res => {
@@ -36,38 +34,37 @@ Page({
     this.setData({ showItemDetail: false, selectedItem: {} });
   },
 
-// 添加菜品到购物车
-addToCart(e) {
-  const itemId = e.currentTarget.dataset.id; // 获取正确的菜单项 ID
-  const menuItem = this.data.menuItems.find(item => item.menu_item_id === itemId);
-  if (!menuItem) return;
+  // 添加菜品到购物车
+  addToCart(e) {
+    const itemId = e.currentTarget.dataset.id;
+    const menuItem = this.data.menuItems.find(item => item.menu_item_id === itemId);
+    if (!menuItem) return;
 
-  const cartItemIndex = this.data.cartItems.findIndex(item => item.menu_item_id === itemId);
-  if (cartItemIndex === -1) {
-    this.setData({
-      cartItems: [
-        ...this.data.cartItems,
-        {
-          menu_item_id: menuItem.menu_item_id,
-          name: menuItem.name,
-          price: menuItem.price,
-          quantity: 1,
-          subtotal: menuItem.price
-        }
-      ]
-    });
-  } else {
-    const cartItems = [...this.data.cartItems];
-    cartItems[cartItemIndex].quantity += 1;
-    cartItems[cartItemIndex].subtotal = (cartItems[cartItemIndex].price * cartItems[cartItemIndex].quantity).toFixed(2);
-    this.setData({ cartItems });
-  }
+    const cartItemIndex = this.data.cartItems.findIndex(item => item.menu_item_id === itemId);
+    if (cartItemIndex === -1) {
+      this.setData({
+        cartItems: [
+          ...this.data.cartItems,
+          {
+            menu_item_id: menuItem.menu_item_id,
+            name: menuItem.name,
+            price: menuItem.price,
+            quantity: 1,
+            subtotal: menuItem.price
+          }
+        ]
+      });
+    } else {
+      const cartItems = [...this.data.cartItems];
+      cartItems[cartItemIndex].quantity += 1;
+      cartItems[cartItemIndex].subtotal = (cartItems[cartItemIndex].price * cartItems[cartItemIndex].quantity).toFixed(2);
+      this.setData({ cartItems });
+    }
 
-  this.updateTotalAmount();
-},
+    this.updateTotalAmount();
+  },
 
-
-  // 打开购物车
+  // 显示购物车
   showCart() {
     this.setData({ cartVisible: true });
   },
@@ -81,7 +78,7 @@ addToCart(e) {
   increaseQuantity(e) {
     const itemId = e.currentTarget.dataset.id;
     const cartItems = [...this.data.cartItems];
-    const cartItem = cartItems.find(item => item.id === itemId);
+    const cartItem = cartItems.find(item => item.menu_item_id === itemId);
     if (cartItem) {
       cartItem.quantity += 1;
       cartItem.subtotal = (cartItem.price * cartItem.quantity).toFixed(2);
@@ -94,7 +91,7 @@ addToCart(e) {
   decreaseQuantity(e) {
     const itemId = e.currentTarget.dataset.id;
     const cartItems = [...this.data.cartItems];
-    const cartItemIndex = cartItems.findIndex(item => item.id === itemId);
+    const cartItemIndex = cartItems.findIndex(item => item.menu_item_id === itemId);
 
     if (cartItemIndex > -1) {
       const cartItem = cartItems[cartItemIndex];
