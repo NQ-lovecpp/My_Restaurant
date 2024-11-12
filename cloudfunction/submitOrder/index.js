@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
     database: 'restaurant_ordering_system'
   };
 
-  const { cartItems, totalAmount } = event;
+  const { cartItems, totalAmount, tableNumber } = event; // 解构获取 tableNumber
   const { OPENID } = cloud.getWXContext();
 
   let connection;
@@ -32,8 +32,8 @@ exports.main = async (event, context) => {
 
     // 插入订单信息到 orders 表
     const [orderResult] = await connection.query(
-      'INSERT INTO orders (user_id, total_price, created_at, status) VALUES (?, ?, NOW(), ?)',
-      [userId, totalAmount, 0] // status 初始化为 0
+      'INSERT INTO orders (user_id, total_price, table_number, created_at, status) VALUES (?, ?, ?, NOW(), ?)',
+      [userId, totalAmount, tableNumber, 0]
     );
 
     // 检查 order_id 是否成功生成

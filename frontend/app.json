@@ -2,7 +2,9 @@
   "pages": [
     "pages/menu/menu",
     "pages/account/account",
-    "pages/myOrder/myOrder"
+    "pages/myOrder/myOrder",
+    "pages/adminOrders/adminOrders",
+    "pages/admin/admin"
   ],
   "window": {
     "navigationBarTitleText": "餐厅点餐系统",

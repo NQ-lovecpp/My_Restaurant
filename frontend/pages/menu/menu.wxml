@@ -1,3 +1,20 @@
+<view class="table-number-display">
+  <text>当前桌号：{{tableNumber}}</text>
+  <button class="change-table-button" bindtap="showTableNumberModal">修改桌号</button>
+</view>
+
+<!-- 修改桌号弹出框 -->
+<view class="modal" wx:if="{{showTableNumberModal}}" catchtap="preventTap">
+  <view class="modal-content">
+    <text class="modal-title">修改桌号</text>
+    <input type="number" class="table-number-input" placeholder="请输入桌号" bindinput="inputTableNumber" />
+    <button class="scan-button" bindtap="scanTableNumber">扫码输入桌号</button>
+    <button class="confirm-button" bindtap="confirmTableNumber">确认</button>
+    <button class="cancel-button" bindtap="hideTableNumberModal">取消</button>
+  </view>
+</view>
+
+
 <view class="menu-page">
   <!-- 菜单列表 -->
   <view class="menu-list">
@@ -9,7 +26,7 @@
             <text class="item-name">{{item.name}}</text>
             <text class="item-price">¥{{item.price}}</text>
           </view>
-          <button bindtap="addToCart" data-id="{{item.menu_item_id}}" data-menu_item="{{item}}" class="add-to-cart-button">加入购物车</button>
+          <button bindtap="showAddToCartModal" data-id="{{item.menu_item_id}}" class="add-to-cart-button">加入购物车</button>
         </view>
       </view>
     </block>
@@ -20,15 +37,20 @@
 
   <!-- 菜品详情浮动窗口 -->
   <view class="item-detail-modal" wx:if="{{showItemDetail}}" bindtap="closeItemDetails">
-    <view class="item-detail-content">
+    <view class="item-detail-content" catchtap="preventTap">
       <image class="item-detail-image" src="{{selectedItem.image_url}}" mode="aspectFill"></image>
-      <view class="item-detail-info">
-        <text class="item-detail-name">{{selectedItem.name}}</text>
-        <br />
-        <text class="item-detail-price">价格：¥{{selectedItem.price}}</text>
-        <br />
-        <text class="item-detail-description">{{selectedItem.description}}</text>
+      <view class="item-detail-name">{{selectedItem.name}}</view>
+      <view class="item-detail-price">价格：¥{{selectedItem.price}}</view>
+
+      <!-- 数量选择控制 -->
+      <view class="quantity-controls">
+        <button bindtap="decreaseDetailQuantity" class="quantity-button">-</button>
+        <text class="quantity">{{selectedItemQuantity}}</text>
+        <button bindtap="increaseDetailQuantity" class="quantity-button">+</button>
       </view>
+
+      <!-- 确认添加到购物车按钮 -->
+      <button bindtap="confirmAddToCart" class="add-to-cart-confirm-button">确认添加到购物车</button>
     </view>
   </view>
 
@@ -39,16 +61,9 @@
       <button bindtap="closeCart" class="close-button">关闭</button>
     </view>
 
-    <!-- 购物车表头 -->
-    <view class="cart-table-header">
-      <text class="header-item">菜品名称</text>
-      <text class="header-quantity">数量</text>
-      <text class="header-price">总价</text>
-    </view>
-
     <!-- 购物车商品列表 -->
     <view class="cart-items">
-      <block wx:for="{{cartItems}}" wx:key="menu_item_id">
+      <block wx:for="{{cartItems}}" wx:key="id">
         <view class="cart-item">
           <text class="item-name">{{item.name}}</text>
           <view class="quantity-controls">
@@ -61,12 +76,12 @@
       </block>
     </view>
 
-    <!-- 购物车底部总金额和提交按钮 -->
+
+    <!-- 提交订单按钮 -->
     <view class="cart-footer">
       <text class="total-label">总金额:</text>
       <text class="total-amount">¥{{totalAmount}}</text>
       <button bindtap="submitOrder" class="submit-button">提交订单</button>
     </view>
   </view>
-
 </view>

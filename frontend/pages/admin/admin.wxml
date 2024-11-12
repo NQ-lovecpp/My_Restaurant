@@ -1,0 +1,15 @@
+<!-- 未登录的状态 -->
+<view wx:if="{{noLogin}}" class="root">
+    账号：
+    <input bindinput="getName" type="text"/>
+    密码：
+    <input bindinput="getPassword" type="text"/>
+    <button class="login_btn" type="primary" bindtap="goLogin">管理员登录</button>
+</view>
+
+<!-- 登录成功的状态 -->
+<view wx:else>
+    <button class="logined_btn" type="primary" bindtap="goHouchu">后厨人员管理订单</button>
+    <button class="logined_btn" type="primary" bindtap="goPaihao">管理排号</button>
+    <button class="logined_btn" type="primary" bindtap="loginout">退出登录</button>
+</view>

@@ -1,0 +1,31 @@
+/* pages/admin/admin.wxss */
+page{
+    background: #224b8f;
+}
+.root {
+    background: white;
+    border-radius: 80rpx;
+    padding: 60rpx;
+    margin: 30rpx;
+    margin-top: 100rpx;
+}
+
+input{
+    padding: 5rpx;
+    border: 5rpx solid #224b8f;
+    border-radius: 15rpx;
+}
+
+.login_btn{
+    width: 400rpx;
+    margin-top: 50rpx;
+    color: white;
+    border-radius: 40rpx;
+}
+
+.logined_btn{
+    width: 500rpx;
+    margin-top: 50rpx;
+    color: white;
+    border-radius: 40rpx;
+}

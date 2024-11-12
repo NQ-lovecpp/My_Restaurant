@@ -70,44 +70,44 @@ Page({
       });
   },
 
-  // 评价订单
-  evaluateOrder(e) {
-      if (this.data.isLoading) return; // 禁止重复操作
-      let id = e.currentTarget.dataset.id;
-      let user = wx.getStorageSync('user');
-      wx.showModal({
-          title: '请输入评价内容',
-          editable: true,
-          success: res => {
-              if (res.confirm && res.content) {
-                  wx.showLoading({ title: '提交中...', mask: true });
-                  wx.cloud.callFunction({
-                      name: 'submitEvaluation',
-                      data: {
-                          userId: user.user_id,
-                          orderId: id,
-                          content: res.content,
-                          avatarUrl: user.avatarUrl
-                      },
-                      success: res => {
-                          console.log('评价提交成功:', res);
-                          wx.showToast({ title: '提交成功' });
-                          this.fetchOrderList(this.data.currentTab);
-                      },
-                      fail: err => {
-                          console.error('评价提交失败:', err);
-                          wx.showToast({ icon: 'error', title: '提交失败' });
-                      },
-                      complete: () => {
-                          wx.hideLoading();
-                      }
-                  });
-              } else {
-                  wx.showToast({ icon: 'error', title: '内容为空' });
-              }
+// 评价订单
+evaluateOrder(e) {
+  if (this.data.isLoading) return; // 禁止重复操作
+  let id = e.currentTarget.dataset.id; // 获取订单 ID
+
+  wx.showModal({
+      title: '请输入评价内容',
+      editable: true,
+      success: res => {
+          if (res.confirm && res.content) {
+              wx.showLoading({ title: '提交中...', mask: true });
+              
+              wx.cloud.callFunction({
+                  name: 'submitEvaluation',
+                  data: {
+                      orderId: id, // 只传递订单 ID
+                      content: res.content // 用户输入的评价内容
+                  },
+                  success: res => {
+                      console.log('评价提交成功:', res);
+                      wx.showToast({ title: '提交成功' });
+                      this.fetchOrderList(this.data.currentTab); // 刷新订单列表
+                  },
+                  fail: err => {
+                      console.error('评价提交失败:', err);
+                      wx.showToast({ icon: 'error', title: '提交失败' });
+                  },
+                  complete: () => {
+                      wx.hideLoading();
+                  }
+              });
+          } else {
+              wx.showToast({ icon: 'error', title: '内容为空' });
           }
-      });
-  },
+      }
+  });
+},
+
 
   // 查看评价
   viewEvaluation() {

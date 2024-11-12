@@ -20,28 +20,28 @@
         <view class="order_thumbnails">
             <view class="order_thumbnail_item" wx:for="{{item.items}}" wx:key="menu_item_id">
                 <image class="thumbnail_image" src="{{item.image_url}}" mode="aspectFill"></image>
-                <text class="thumbnail_name">{{item.name}}</text>
+                <text class="thumbnail_name">{{item.name}} x {{item.quantity}}</text>
             </view>
         </view>
 
-        <!-- 如果是“已完成”状态，则显示评价内容 -->
-        <view wx:if="{{currentTab == 2 && item.comment}}">
-            <view class="order_comment">用户评价：{{item.comment}}</view>
+        <!-- 如果是“待评价”状态，则显示评价内容 -->
+        <view wx:if="{{currentTab == 1}}">
+            <view class="order_comment">评价内容：{{item.comment || '暂无评价'}}</view>
         </view>
 
         <!-- 操作按钮 -->
         <view class="order_actions">
             <view wx:if="{{currentTab == 0}}" 
-                  class="order_action_button order_action_button_cancel" 
-                  bindtap="cancelOrder" 
+                  class="order_action_button order_action_button_complete" 
+                  bindtap="completeOrder" 
                   data-id="{{item.order_id}}">
-                取消订单
+                完成
             </view>
-            <view wx:if="{{currentTab == 1}}" 
-                  class="order_action_button order_action_button_evaluate" 
-                  bindtap="evaluateOrder" 
+            <view wx:if="{{currentTab == 3}}" 
+                  class="order_action_button order_action_button_restore" 
+                  bindtap="restoreOrder" 
                   data-id="{{item.order_id}}">
-                去评价
+                恢复
             </view>
         </view>
     </view>
